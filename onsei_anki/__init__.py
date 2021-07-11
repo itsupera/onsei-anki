@@ -4,6 +4,7 @@ import re
 import time
 from typing import Optional
 
+from bs4 import BeautifulSoup
 import requests
 from anki.hooks import wrap
 from aqt.reviewer import Reviewer
@@ -66,8 +67,10 @@ def get_sentence_transcript(note):
             break
     else:
         return
+    soup = BeautifulSoup(note[field], features="lxml")
+    sentence = soup.get_text()
     # Remove spaces and furigana annotations
-    sentence = re.sub(r'\s+', '', re.sub(r'\[[^\]]*\]', '', note[field]))
+    sentence = re.sub(r'\s+', '', re.sub(r'\[[^\]]*\]', '', sentence))
     return sentence
 
 
