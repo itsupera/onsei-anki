@@ -10,6 +10,7 @@ import requests
 from anki.hooks import wrap
 from aqt.reviewer import Reviewer
 from aqt.utils import showInfo
+from aqt import mw
 
 DEBUG_USE_REF_AS_MY_RECORDING = False
 
@@ -17,10 +18,23 @@ SENTENCE_AUDIO_FIELDS = ["Sentence Audio", "Sentence-Audio", "Audio", "Back"]
 SENTENCE_TRANSCRIPT_FIELDS = ["Sentence", "Expression", "Front"]
 
 
+ADDON_PATH = os.path.dirname(__file__)
+ADDON_FOLDERNAME = mw.addonManager.addonFromModule(__name__)
+
+
+# FIXME make it work with a local file
+# regex = r"web.*"
+# mw.addonManager.setWebExports(__name__, regex)
+# SPINNER_PATH = f"/_addons/{ADDON_FOLDERNAME}/web/spinner.gif"
+SPINNER_PATH = f"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.stack.imgur.com%2FkOnzy.gif&f=1&nofb=1"
+
+
 def on_replay_recorded(self: Reviewer):
     # Has audio been recorded yet ?
     if self._recordedAudio is None:
         return
+
+    display_html(f'<img height="100px" src="{SPINNER_PATH}"></img>', self, close_button=False)
 
     nid = self.card.nid
     note = self.mw.col.getNote(nid)
@@ -104,17 +118,19 @@ def error_div(detail: str) -> str:
     """
 
 
-def display_html(div_content: str, reviewer: Reviewer):
+def display_html(div_content: str, reviewer: Reviewer, close_button: bool = True):
     """
     Display the given HTML content at the beginning of the card's view, with a button to close.
     """
+    close = f"""
+    <button
+        type="button" style="float: right" class="close"
+        onclick="$(this).parent().remove();">
+        ×
+    </button>"""
     div = f"""
     <div id="onsei" style="overflow: hidden">
-        <button
-            type="button" style="float: right" class="close"
-            onclick="$(this).parent().remove();">
-            ×
-        </button>
+        {close if close_button else ""}
         {div_content}
     </div>
     """.replace("\n", "")  # Need to remove newlines for the replace below to work
