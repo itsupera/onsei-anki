@@ -14,9 +14,6 @@ from aqt import mw
 
 DEBUG_USE_REF_AS_MY_RECORDING = False
 
-SENTENCE_AUDIO_FIELDS = ["Sentence Audio", "Sentence-Audio", "Audio", "Back"]
-SENTENCE_TRANSCRIPT_FIELDS = ["Sentence", "Expression", "Front"]
-
 
 ADDON_PATH = os.path.dirname(__file__)
 ADDON_FOLDERNAME = mw.addonManager.addonFromModule(__name__)
@@ -27,6 +24,9 @@ ADDON_FOLDERNAME = mw.addonManager.addonFromModule(__name__)
 # mw.addonManager.setWebExports(__name__, regex)
 # SPINNER_PATH = f"/_addons/{ADDON_FOLDERNAME}/web/spinner.gif"
 SPINNER_PATH = f"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.stack.imgur.com%2FkOnzy.gif&f=1&nofb=1"
+
+
+CONFIG = mw.addonManager.getConfig(__name__)
 
 
 def on_replay_recorded(self: Reviewer):
@@ -42,7 +42,8 @@ def on_replay_recorded(self: Reviewer):
     audio_filepath = get_sentence_audio_filepath(note, self)
     if not audio_filepath:
         if audio_filepath is None:
-            display_html(error_div(f"Could not find sentence audio field ! Tried with: {','.join(SENTENCE_AUDIO_FIELDS)}"), self)
+            display_html(error_div(f"Could not find sentence audio field ! Tried with: "
+                                   f"{','.join(CONFIG['sentence_audio_fields'])}"), self)
         else:
             display_html(error_div("Sentence audio field is empty !"), self)
         return
@@ -50,7 +51,8 @@ def on_replay_recorded(self: Reviewer):
     sentence = get_sentence_transcript(note)
     if not sentence:
         if sentence is None:
-            display_html(error_div(f"Could not find sentence transcript field ! Tried with: {','.join(SENTENCE_TRANSCRIPT_FIELDS)}"), self)
+            display_html(error_div(f"Could not find sentence transcript field ! Tried with: "
+                                   f"{','.join(CONFIG['sentence_transcript_fields'])}"), self)
         else:
             display_html(error_div("Sentence transcript field is empty !"), self)
         return
@@ -82,20 +84,24 @@ def on_replay_recorded(self: Reviewer):
 
 
 def get_sentence_transcript(note):
-    for field in SENTENCE_TRANSCRIPT_FIELDS:
+    for field in CONFIG['sentence_transcript_fields']:
         if field in note:
             break
     else:
         return
     soup = BeautifulSoup(note[field], features="lxml")
     sentence = soup.get_text()
-    # Remove spaces and furigana annotations
-    sentence = re.sub(r'\s+', '', re.sub(r'\[[^\]]*\]', '', sentence))
+    # Remove spaces, furigana annotations ...
+    sentence = re.sub(r'\s+', '', sentence)
+    if CONFIG["remove_parenthesis"]:
+        sentence = re.sub(r'\([^\)]*\)', '', sentence)
+    if CONFIG["remove_square_brackets"]:
+        sentence = re.sub(r'\[[^\]]*\]', '', sentence)
     return sentence
 
 
 def get_sentence_audio_filepath(note, reviewer: Reviewer) -> Optional[str]:
-    for field in SENTENCE_AUDIO_FIELDS:
+    for field in CONFIG['sentence_audio_fields']:
         if field in note:
             match = re.search(r"\[sound:([^\]]+)\]", note[field])
             if match:
