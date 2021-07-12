@@ -4,15 +4,17 @@ import re
 import time
 from typing import Optional
 
+from aqt import gui_hooks
 from bs4 import BeautifulSoup
 import requests
 from anki.hooks import wrap
 from aqt.reviewer import Reviewer
 from aqt.utils import showInfo
 
+DEBUG_USE_REF_AS_MY_RECORDING = False
 
-SENTENCE_AUDIO_FIELDS = ["Sentence Audio", "Sentence-Audio"]
-SENTENCE_TRANSCRIPT_FIELDS = ["Sentence", "Expression"]
+SENTENCE_AUDIO_FIELDS = ["Sentence Audio", "Sentence-Audio", "Audio", "Back"]
+SENTENCE_TRANSCRIPT_FIELDS = ["Sentence", "Expression", "Front"]
 
 
 def on_replay_recorded(self: Reviewer):
@@ -41,12 +43,16 @@ def on_replay_recorded(self: Reviewer):
 
     # showInfo(f"Will compare {self._recordedAudio} to {audio_filepath}")
 
+    recorded_audio = self._recordedAudio
+    if DEBUG_USE_REF_AS_MY_RECORDING:
+        recorded_audio = audio_filepath
+
     res = requests.post(
         "http://127.0.0.1:8000/compare/graph.png",
         data={"sentence": sentence},
         files={
             "teacher_audio_file": open(audio_filepath, 'rb'),
-            "student_audio_file": open(self._recordedAudio, 'rb'),
+            "student_audio_file": open(recorded_audio, 'rb'),
         }
     )
 
@@ -77,10 +83,13 @@ def get_sentence_transcript(note):
 def get_sentence_audio_filepath(note, reviewer: Reviewer) -> Optional[str]:
     for field in SENTENCE_AUDIO_FIELDS:
         if field in note:
-            break
+            match = re.search(r"\[sound:([^\]]+)\]", note[field])
+            if match:
+                audio_filename = match.group(1)
+                break
     else:
         return
-    audio_filename = note[field].replace("[sound:", "").rstrip("]")
+
     # ~/.local/share/Anki2/User1/collection.media
     col_media_path = os.path.join(reviewer.mw.pm.profileFolder(), "collection.media")
     audio_filepath = os.path.join(col_media_path, audio_filename)
@@ -88,7 +97,6 @@ def get_sentence_audio_filepath(note, reviewer: Reviewer) -> Optional[str]:
 
 
 def error_div(detail: str) -> str:
-    # return f"""Error: toto""" # {detail.replace("'", " ")}"""
     return f"""
     <div style="color: #ba3939; background: #ffe0e0; border: 1px solid #a33a3a; padding: 10px; margin: 10px;">
         <b>Error</b>: {detail}
@@ -122,3 +130,13 @@ def display_html(div_content: str, reviewer: Reviewer):
 
 
 Reviewer.onReplayRecorded = wrap(Reviewer.onReplayRecorded, on_replay_recorded)
+
+
+def cleanup_hook(reviewer, card, ease):
+    script = f"""
+    if ($("#onsei").length > 0) $("#onsei").remove();
+    """
+    reviewer.web.eval(script)
+
+
+gui_hooks.reviewer_did_answer_card.append(cleanup_hook)
