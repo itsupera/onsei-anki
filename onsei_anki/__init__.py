@@ -1,7 +1,6 @@
 import base64
 import os
 import re
-import time
 from typing import Optional
 
 from aqt import gui_hooks
@@ -15,18 +14,11 @@ from aqt import mw
 DEBUG_USE_REF_AS_MY_RECORDING = False
 
 
+CONFIG = mw.addonManager.getConfig(__name__)
 ADDON_PATH = os.path.dirname(__file__)
 ADDON_FOLDERNAME = mw.addonManager.addonFromModule(__name__)
-
-
-# FIXME make it work with a local file
-# regex = r"web.*"
-# mw.addonManager.setWebExports(__name__, regex)
-# SPINNER_PATH = f"/_addons/{ADDON_FOLDERNAME}/web/spinner.gif"
-SPINNER_PATH = f"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.stack.imgur.com%2FkOnzy.gif&f=1&nofb=1"
-
-
-CONFIG = mw.addonManager.getConfig(__name__)
+mw.addonManager.setWebExports(__name__, r"web.*")
+SPINNER_PATH = f"/_addons/{ADDON_FOLDERNAME}/web/spinner.gif"
 
 
 def on_replay_recorded(self: Reviewer):
