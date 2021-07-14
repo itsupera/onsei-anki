@@ -2,5 +2,6 @@
   "remove_parenthesis": true,
   "remove_square_brackets": true,
   "sentence_audio_fields": ["Sentence Audio", "Sentence-Audio", "Audio", "Back"],
-  "sentence_transcript_fields": ["Sentence", "Expression", "Front"]
+  "sentence_transcript_fields": ["Sentence", "Expression", "Front"],
+  "show_all_graphs": false
 }

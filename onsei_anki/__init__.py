@@ -65,7 +65,7 @@ def on_replay_recorded(self: Reviewer):
 
     res = requests.post(
         "http://127.0.0.1:8000/compare/graph.png",
-        data={"sentence": sentence},
+        data={"sentence": sentence, "show_all_graphs": CONFIG["show_all_graphs"]},
         files={
             "teacher_audio_file": open(audio_filepath, 'rb'),
             "student_audio_file": open(recorded_audio, 'rb'),
