@@ -74,6 +74,9 @@ def on_replay_recorded(self: Reviewer):
 
     display_html(div_content, self)
 
+    if CONFIG["show_answer_after_recording"]:
+        self._showAnswer()
+
 
 def get_sentence_transcript(note):
     for field in CONFIG['sentence_transcript_fields']:
