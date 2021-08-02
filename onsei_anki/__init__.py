@@ -92,7 +92,7 @@ def on_replay_recorded(self: Reviewer):
     div = get_graph_from_api(audio_filepath, sentence, recorded_audio)
     inject_addon_div(div, web)
 
-    if CONFIG["show_answer_after_recording"]:
+    if CONFIG["reveal_answer_after_recording"]:
         self._showAnswer()
 
 
@@ -246,7 +246,9 @@ def inject_addon_div(div: str, web: AnkiWebView) -> None:
     web.eval(script)
 
 
-gui_hooks.card_will_show.append(on_card_will_show)
-gui_hooks.reviewer_did_show_question.append(on_reviewer_did_show_question)
+if CONFIG["show_in_preview"]:
+    gui_hooks.card_will_show.append(on_card_will_show)
+if CONFIG["show_in_question"]:
+    gui_hooks.reviewer_did_show_question.append(on_reviewer_did_show_question)
 gui_hooks.reviewer_did_answer_card.append(on_reviewer_did_answer_card)
 Reviewer.onReplayRecorded = wrap(Reviewer.onReplayRecorded, on_replay_recorded)

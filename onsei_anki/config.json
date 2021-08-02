@@ -3,8 +3,10 @@
   "remove_square_brackets": true,
   "sentence_audio_fields": ["Sentence Audio", "Sentence-Audio", "Audio", "Back"],
   "sentence_transcript_fields": ["Sentence", "Expression", "Front"],
+  "show_in_question": false,
+  "show_in_preview": false,
+  "reveal_answer_after_recording": true,
   "show_all_graphs": false,
-  "show_answer_after_recording": true,
   "graph_height_in_pixels": 400,
   "api_url": "http://127.0.0.1:8000",
   "debug_use_ref_audio_as_my_recording": false
