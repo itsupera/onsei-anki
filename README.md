@@ -7,3 +7,5 @@ Onsei Anki: Anki plugin for pitch accent practice
 ==================================================
 
 Work in progress...  in the meantime check out [Onsei](https://github.com/itsupera/onsei), which this project builds on. 
+
+![Screenshot](screenshot.png)
