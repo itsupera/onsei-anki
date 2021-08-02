@@ -193,7 +193,8 @@ def get_graph_from_api(audio_filepath: str, sentence: str, recorded_audio: Optio
         if res.ok:
             b64_img = str(base64.b64encode(res.content), 'utf-8')
             height = CONFIG["graph_height_in_pixels"]
-            div_content = f'<img id="graph" height="{height}" src="data:image/png;base64,{b64_img}"></img>'
+            style = f"max-height:{height};width:auto"
+            div_content = f'<img id="graph" style="{style}" src="data:image/png;base64,{b64_img}"></img>'
         else:
             detail = res.json()['detail']
             div_content = error_div(detail)
