@@ -6,8 +6,8 @@
   "show_in_question": false,
   "show_in_preview": false,
   "reveal_answer_after_recording": true,
-  "show_all_graphs": false,
+  "show_all_graphs": true,
   "graph_height_in_pixels": 400,
-  "api_url": "http://127.0.0.1:8000",
+  "api_url": "http://vps-47726545.vps.ovh.net:8000",
   "debug_use_ref_audio_as_my_recording": false
 }
