@@ -23,29 +23,39 @@ Usage
 
 For now, the following instructions have only been tested on Ubuntu Linux and with Anki 2.1.35.
 
-1) Launch the Onsei API, which the addon will connect to. The easiest way is to launch it with Docker:
-```bash
-docker run --network=host itsupera/onsei-api
-```
+1) Copy the `onsei_anki` folder into the Anki addons folder.
 
-2) Copy the `onsei_anki` folder into the Anki addons folder
-```bash
-cp -r onsei_anki $HOME/.local/share/Anki2/addons21/onsei_anki
-```
+- On Windows: `C:\Users\<YOUR_USER_NAME>\AppData\Roaming\Anki2\addons21`
+- On Linux: `$HOME/.local/share/Anki2/addons21/onsei_anki`
 
-3) Run (or restart) Anki
+2) Run (or restart) Anki
 
-4) Configure the addon: go to the `Addons` menu (Ctrl+Shift+A), select "Onsei" and click on `Config`
+3) Configure the addon: go to the `Addons` menu (Ctrl+Shift+A), select "Onsei" and click on `Config`
 
 - Add to `sentence_audio_fields` the name of the fields where you put your sentence audio.
 - Add to `sentence_transcript_fields` the name of the fields where you put your sentence transcription.
 
-5) Do you audio sentence cards reps like this:
+4) Do your audio sentence cards reps like this:
 
 - On the question side, you should hear the sentence audio (if not, configure your card type to do so)
-- Press Ctrl+v to record yourself, repeat the sentence you just heard and press Enter to validate
+- Press `Ctrl+v` to record yourself, repeat the sentence you just heard and press `Enter` to validate (`Esc` to cancel)
 - The addon will automatically reveal the answer and display a graph comparing your intonation to the sentence audio
-- You can press r to re-listen to the sentence audio, or v to re-listen to your audio
+- You can press `r` to re-listen to the sentence audio, or `v` to re-listen to your audio
+
+Alternatively, you can also use it after you have revealed the answer.
+
+Running the API
+----------------
+
+By default, the addon will connect to an instance of Onsei API running on the web.
+
+If you want to run it locally, use the following command (on Linux):
+
+```bash
+docker run --network=host itsupera/onsei-api
+```
+
+and change `api_url` to `http://127.0.0.1:8000` in the addon's configuration.
 
 Troubleshooting
 ----------------
