@@ -6,8 +6,6 @@
 Onsei Anki: Anki plugin for pitch accent practice
 ==================================================
 
-**THIS IS AN EXPERIMENTAL WORK IN PROGRESS !**
-
 This addon helps you practice your [Japanese pitch accent](https://www.kanshudo.com/howto/pitch)
 while you do your Anki reps on [audio sentence cards](https://www.youtube.com/watch?v=zMBXwo9SJbQ) !
 
@@ -18,7 +16,9 @@ It will compare your own recording with the card's sentence audio and show you w
 Under the hood, it is using my [Onsei](https://github.com/itsupera/onsei) project.
 Check it out for the technical details.
 
-Usage
+**IMPORTANT NOTE: THIS IS STILL A WORK IN PROGRESS, PLEASE REPORT ANY ISSUE AND SHARE IMPROVEMENT IDEAS !**
+
+Setup
 ------
 
 For now, the following instructions have only been tested on Ubuntu Linux and with Anki 2.1.35.
@@ -26,28 +26,32 @@ For now, the following instructions have only been tested on Ubuntu Linux and wi
 1) Copy the `onsei_anki` folder into the Anki addons folder.
 
 - On Windows: `C:\Users\<YOUR_USER_NAME>\AppData\Roaming\Anki2\addons21`
-- On Linux: `$HOME/.local/share/Anki2/addons21/onsei_anki`
+- On Linux: `~/.local/share/Anki2/addons21`
+- On MacOS: `~/Library/Application Support/Anki2/addons21`
 
 2) Run (or restart) Anki
 
-3) Configure the addon: go to the `Addons` menu (Ctrl+Shift+A), select "Onsei" and click on `Config`
+3) Configure the addon: go to the `Addons` menu (Ctrl+Shift+A), select `Onsei` and click on `Config`
 
 - Add to `sentence_audio_fields` the name of the fields where you put your sentence audio.
 - Add to `sentence_transcript_fields` the name of the fields where you put your sentence transcription.
 
-4) Do your audio sentence cards reps like this:
+Usage
+------
 
-- On the question side, you should hear the sentence audio (if not, configure your card type to do so)
-- Press `Ctrl+v` to record yourself, repeat the sentence you just heard and press `Enter` to validate (`Esc` to cancel)
-- The addon will automatically reveal the answer and display a graph comparing your intonation to the sentence audio
+- When reviewing a card, press `Ctrl+v` to record yourself, then press `Enter` to validate (or `Esc` to cancel).
+- The addon will automatically reveal the answer and display a graph comparing your intonation to the sentence audio.
 - You can press `r` to re-listen to the sentence audio, or `v` to re-listen to your audio
 
-Alternatively, you can also use it after you have revealed the answer.
+Here are two ways you can use it:
 
-Running the API
-----------------
+- Repeating or shadowing exercice on Audio sentence cards (audio on front, text on back)
+- Reading exercice on Text Sentence cards (text on front, audio on back)
 
-By default, the addon will connect to an instance of Onsei API running on the web.
+Running the API locally
+------------------------
+
+By default, the addon will connect to an instance of Onsei API running on a distant server.
 
 If you want to run it locally, use the following command (on Linux):
 
@@ -56,6 +60,8 @@ docker run --network=host itsupera/onsei-api
 ```
 
 and change `api_url` to `http://127.0.0.1:8000` in the addon's configuration.
+
+Refer to the [Onsei](https://github.com/itsupera/onsei) project for more details about the API.
 
 Troubleshooting
 ----------------
