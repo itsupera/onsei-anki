@@ -39,7 +39,7 @@ For now, the following instructions have only been tested on Ubuntu Linux and wi
 Usage
 ------
 
-- When reviewing a card, press `Ctrl+v` to record yourself, then press `Enter` to validate (or `Esc` to cancel).
+- When reviewing a card, press `Shift+v` to record yourself, then press `Enter` to validate (or `Esc` to cancel).
 - The addon will automatically reveal the answer and display a graph comparing your intonation to the sentence audio.
 - You can press `r` to re-listen to the sentence audio, or `v` to re-listen to your audio
 
