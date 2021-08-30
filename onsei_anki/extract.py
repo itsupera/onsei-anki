@@ -15,7 +15,7 @@ def get_sentence_transcript(note: Note) -> Optional[str]:
             break
     else:
         return
-    soup = BeautifulSoup(note[field], features="lxml")
+    soup = BeautifulSoup(note[field], "html.parser")
     sentence = soup.get_text()
     # Remove spaces, furigana annotations ...
     sentence = re.sub(r'\s+', '', sentence)
