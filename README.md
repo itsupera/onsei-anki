@@ -29,24 +29,27 @@ For now, the following instructions have only been tested on Ubuntu Linux and wi
 - On Linux: `~/.local/share/Anki2/addons21`
 - On MacOS: `~/Library/Application Support/Anki2/addons21`
 
-2) Run (or restart) Anki
+2) Run Anki
 
 3) Configure the addon: go to the `Addons` menu (Ctrl+Shift+A), select `Onsei` and click on `Config`
 
+- Add to `decks` the name of the decks for which you have sentence audio cards.
 - Add to `sentence_audio_fields` the name of the fields where you put your sentence audio.
 - Add to `sentence_transcript_fields` the name of the fields where you put your sentence transcription.
+
+4) Restart Anki (for the changes in the configuration to apply)
 
 Usage
 ------
 
-- When reviewing a card, press `Shift+v` to record yourself, then press `Enter` to validate (or `Esc` to cancel).
+- When reviewing a card, press `Shift+v` to record yourself, then click the `Save` button to validate (or `Esc` to cancel).
 - The addon will automatically reveal the answer and display a graph comparing your intonation to the sentence audio.
 - You can press `r` to re-listen to the sentence audio, or `v` to re-listen to your audio
 
 Here are two ways you can use it:
 
-- Repeating or shadowing exercice on Audio sentence cards (audio on front, text on back)
-- Reading exercice on Text Sentence cards (text on front, audio on back)
+- Repeating or shadowing exercise on Audio sentence cards (audio on front, text on back)
+- Reading exercise on Text Sentence cards (text on front, audio on back)
 
 Running the API locally
 ------------------------

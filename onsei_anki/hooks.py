@@ -11,6 +11,10 @@ from onsei_anki.html import display_html, error_div, inject_addon_div, generate_
 
 def on_reviewer_did_show_question(card: Card):
     """ Hook to display a simple graph when the question is shown during review """
+    deck_name = mw.col.decks.name(card.did)
+    if deck_name not in CONFIG["decks"]:
+        return
+
     web = mw.reviewer.web
 
     nid = card.nid
@@ -40,6 +44,9 @@ def on_reviewer_did_show_question(card: Card):
 
 def on_replay_recorded(self: Reviewer):
     """ Hook to display a comparison graph when audio is recording by the user during a review """
+    deck_name = mw.col.decks.name(self.card.did)
+    if deck_name not in CONFIG["decks"]:
+        return
 
     # Has audio been recorded yet ?
     if self._recordedAudio is None:
@@ -86,6 +93,9 @@ def on_replay_recorded(self: Reviewer):
 
 def on_card_will_show(text: str, card: Card, kind: str) -> str:
     """ Hook to show a graph in the card preview """
+    deck_name = mw.col.decks.name(card.did)
+    if deck_name not in CONFIG["decks"]:
+        return text
 
     if not kind.startswith("preview"):
         return text
@@ -119,4 +129,7 @@ def on_card_will_show(text: str, card: Card, kind: str) -> str:
 
 def on_reviewer_did_answer_card(reviewer: Reviewer, card: Card, ease: int):
     """ Hook to remove the addon div after the card has been answered """
+    if mw.col.name() not in CONFIG["decks"]:
+        return
+
     remove_addon_div(reviewer.web)

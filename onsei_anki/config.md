@@ -14,6 +14,7 @@ Parameters
 - `remove_parenthesis`: If set to `true`, will ignore all the text between parenthesis, e.g., `(...)`, in the sentence transcript.
 - `remove_square_brackets`: If set to `true`, will ignore all the text between square brackets, e.g., `[...]`, in the sentence transcript.
 - `reveal_answer_after_recording`: If set to `true`, reveal the back of the card after recording your voice.
+- `decks`: List of deck names to use Onsei with (must contain cards with a sentence transcript and audio).
 - `sentence_audio_fields`: List of card field names to look for sentence audio (in order of priority).
 - `sentence_transcript_fields`: List of card field names to look for sentence transcript (in order of priority). 
 - `show_all_graphs`: If set to `true`, will show not only the comparison graph, but also graphs for the reference (sentence) audio and your own recording.
