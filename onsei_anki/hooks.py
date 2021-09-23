@@ -1,6 +1,7 @@
 from anki.cards import Card
 from aqt import mw
 from aqt.reviewer import Reviewer
+from aqt.utils import showInfo
 
 from onsei_anki import CONFIG
 from onsei_anki.api import get_graph_from_api
@@ -40,6 +41,17 @@ def on_reviewer_did_show_question(card: Card):
 
     div = get_graph_from_api(audio_filepath, sentence)
     inject_addon_div(div, web)
+
+
+def on_reviewer_did_show_question_cleanup(card: Card):
+    """ Hook to display a simple graph when the question is shown during review """
+
+    deck_name = mw.col.decks.name(card.did)
+    if deck_name not in CONFIG["decks"]:
+        return
+
+    web = mw.reviewer.web
+    remove_addon_div(web)
 
 
 def on_replay_recorded(self: Reviewer):
